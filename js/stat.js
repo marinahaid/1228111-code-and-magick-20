@@ -9,8 +9,6 @@ var FONT_GAP = 16;
 var TEXT_WIDTH = 40;
 var BAR_HEIGHT = 150;
 var BAR_INDENT = 50;
-var barheight = CLOUD_HEIGHT - GAP - FONT_GAP - GAP - FONT_GAP - GAP - FONT_GAP - GAP;
-
 var BAR_WIDTH = 40;
 
 
@@ -36,13 +34,23 @@ window.renderStatistics = function (ctx, players, times) {
 
 
   ctx.fillStyle = '#000';
+  ctx.font = 'medium 16px PT Mono';
+  ctx.textBaseline = 'hanging';
+  ctx.fillText('Ура вы победили!', 150, 30);
+  ctx.fillText('Список результатов:', 150, 50);
 
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
-    ctx.fillText(players[i], CLOUD_X + GAP + BAR_INDENT + (BAR_WIDTH + BAR_INDENT) * i, CLOUD_Y + GAP + BAR_HEIGHT + (GAP + FONT_GAP) * 3);
-    ctx.fillRect((CLOUD_X + GAP) * i, CLOUD_Y + GAP + BAR_WIDTH + (barheight + times[i]) / maxTime, BAR_HEIGHT);
 
+    var gistoHeight = times[i] / maxTime * BAR_HEIGHT;
+    var bottomGisto = CLOUD_Y + BAR_HEIGHT + (GAP + FONT_GAP) * 3 + GAP;
+    ctx.fillStyle = '#000';
+    ctx.fillText(Math.ceil(times[i]), CLOUD_X + BAR_INDENT + GAP + (BAR_WIDTH + BAR_INDENT) * i, gistoHeight);
+    ctx.fillStyle = '#000';
+    ctx.fillText(players[i], CLOUD_X + GAP + BAR_INDENT + (BAR_WIDTH + BAR_INDENT) * i, CLOUD_Y + GAP + BAR_HEIGHT + (GAP + FONT_GAP) * 3 + GAP);
+    ctx.fillStyle = ('rgba(255, 0, 0, 1)');
+    ctx.fillRect(CLOUD_X + BAR_INDENT + GAP + (BAR_WIDTH + BAR_INDENT) * i, bottomGisto - gistoHeight, BAR_WIDTH, gistoHeight);
   }
 };
 
